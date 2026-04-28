@@ -29,7 +29,7 @@
         h2 { color: #c2185b; margin-bottom: 20px; }
         label { display: block; text-align: left; margin: 10px 0 5px; color: #880e4f; font-weight: bold; }
         
-        select {
+        select, input[type="text"] {
             width: 100%;
             padding: 12px;
             margin-bottom: 15px;
@@ -39,6 +39,10 @@
             font-size: 16px;
             background-color: white;
             cursor: pointer;
+        }
+
+        input[type="text"] {
+            cursor: text; /* Corregido cursor para escritura */
         }
 
         button {
@@ -93,27 +97,19 @@
             margin: 30px auto 0;
         }
 
-        /* --- NUEVO ESTILO MASONRY (COMO PINTEREST) --- */
         .galeria-fotos {
-            column-count: 1; /* 1 columna en celulares */
+            column-count: 1;
             column-gap: 15px;
             padding: 10px;
             width: 100%;
             box-sizing: border-box;
         }
 
-        /* 2 columnas en pantallas medianas */
-        @media (min-width: 600px) {
-            .galeria-fotos { column-count: 2; }
-        }
-
-        /* 3 columnas en pantallas de PC */
-        @media (min-width: 900px) {
-            .galeria-fotos { column-count: 3; }
-        }
+        @media (min-width: 600px) { .galeria-fotos { column-count: 2; } }
+        @media (min-width: 900px) { .galeria-fotos { column-count: 3; } }
 
         .foto-card {
-            break-inside: avoid; /* Evita que la tarjeta se parta entre columnas */
+            break-inside: avoid;
             margin-bottom: 15px;
             background: #fff;
             padding: 12px;
@@ -127,7 +123,7 @@
 
         .foto {
             width: 100%;
-            height: auto; /* Mantiene la proporción real de cada foto */
+            height: auto;
             border-radius: 5px;
             display: block;
         }
@@ -143,6 +139,83 @@
         }
 
         .msg-amor { font-size: 24px; color: #ad1457; margin-bottom: 20px; font-weight: bold; text-align: center; }
+
+        /* --- NUEVO ESTILO: CARTA DE DISCULPA Y CORAZÓN EXPLOSIVO --- */
+        .carta-disculpa {
+            background-color: #fff1f2; /* Fondo rosa pálido muy suave */
+            border: 2px solid #f8bbd0;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(194, 24, 91, 0.1);
+            color: #ad1457;
+            font-size: 17px;
+            line-height: 1.6;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .seccion-premio {
+            text-align: center;
+            margin-top: 30px;
+            margin-bottom: 40px;
+        }
+
+        .texto-presiona {
+            color: #ad1457;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .corazon-explosivo {
+            font-size: 70px;
+            cursor: pointer;
+            display: inline-block;
+            user-select: none;
+            animation: pulseSimple 1s infinite;
+            transition: transform 0.2s ease;
+        }
+
+        .corazon-explosivo:hover {
+            transform: scale(1.15);
+        }
+
+        @keyframes pulseSimple {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Clase de animación para la explosión */
+        .exploded {
+            animation: explodeAnimation 0.5s ease-out forwards;
+        }
+
+        @keyframes explodeAnimation {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(3); opacity: 0; }
+        }
+
+        .mensaje-cine {
+            display: none; /* Oculto inicialmente */
+            background-color: #ec407a;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(236, 64, 122, 0.4);
+            animation: slideUpFade 0.5s ease;
+        }
+
+        @keyframes slideUpFade {
+            0% { transform: translateY(20px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
     </style>
 </head>
 <body>
@@ -180,14 +253,8 @@
             <option value="22/12/2025">22/12/2025</option>
         </select>
 
-        <label>Por último... tu código de la U</label>
-        <select id="codigo">
-            <option value="">Selecciona tu código...</option>
-            <option value="20184451">20184451</option>
-            <option value="20191758">20191758</option>
-            <option value="20201532">20201532</option>
-            <option value="20210045">20210045</option>
-        </select>
+        <label>Por último... digita tu código de la U</label>
+        <input type="text" id="codigo" placeholder="Escribe tu código de la U...">
 
         <button onclick="validar()">Ingresar ❤️</button>
     </div>
@@ -203,6 +270,20 @@
             <p style="color: #ad1457; text-align: center; font-weight: bold; font-size: 20px;">Nuestros mejores momentos:</p>
             <div id="contenedor-fotos" class="galeria-fotos">
                 </div>
+
+            <div id="carta-disculpa" class="carta-disculpa">
+                <p>Te amo Nahely Quinta Aguilar, te amo mucho!</p>
+                <p>Eres lo mejor que me ha pasado, chiquita preciosa. Sin ti ya nada tendría sentido.</p>
+                <p>Sé que fallé pero no quiero que por una mentira de ese tipo todo se acabe, solo quisiera que podamos hablar... Sé que tienes que estudiar pero será breve... BUENO, tal vez no tanto.</p>
+            </div>
+
+            <div class="seccion-premio">
+                <p class="texto-presiona">presiona aquí!</p>
+                <div class="corazon-explosivo" id="corazon-boton" onclick="clickCorazon()">❤️</div>
+                <div id="mensaje-premio" class="mensaje-cine">
+                    🎉 GANASTE UNA ENTRADA AL CINE PARA HOY 🎉
+                </div>
+            </div>
         </div>
 
         <audio id="musica" loop>
@@ -211,7 +292,6 @@
     </div>
 
     <script>
-        // Tus descripciones exactas
         const descripcionesFotos = [
             "Del primer día que vi a la mejor chica del mundo, fatima la caga",
             "De cuando era malo, pero te quería desde siempre",
@@ -234,7 +314,8 @@
             const apo = document.getElementById('apodo').value;
             const lug = document.getElementById('lugar').value;
             const fec = document.getElementById('fecha').value;
-            const cod = document.getElementById('codigo').value;
+            // Capturar valor de la caja de texto
+            const cod = document.getElementById('codigo').value.trim();
 
             if (apo === "Naieli" && lug === "entrada a sociales" && fec === "14/11/2025" && cod === "20191758") {
                 document.getElementById('login-box').style.display = 'none';
@@ -256,7 +337,6 @@
             const contenedor = document.getElementById('contenedor-fotos');
             contenedor.innerHTML = ""; 
 
-            // Carga dinámica manteniendo el orden y la proporción
             for (let i = 1; i <= 15; i++) {
                 const fotoCard = document.createElement('div');
                 fotoCard.className = 'foto-card';
@@ -275,6 +355,23 @@
             }
 
             document.getElementById('musica').play();
+        }
+
+        // --- NUEVA FUNCIÓN: LÓGICA DEL CORAZÓN EXPLOSIVO ---
+        function clickCorazon() {
+            const corazon = document.getElementById('corazon-boton');
+            const mensajePremio = document.getElementById('mensaje-premio');
+            const textoPresiona = document.querySelector('.texto-presiona');
+
+            // Añadir animación de explosión
+            corazon.classList.add('exploded');
+
+            // Después de la animación (0.5s), ocultar corazón y mostrar premio
+            setTimeout(() => {
+                corazon.style.display = 'none';
+                textoPresiona.style.display = 'none';
+                mensajePremio.style.display = 'block';
+            }, 500); 
         }
     </script>
 </body>
