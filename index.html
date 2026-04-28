@@ -28,7 +28,7 @@
         h2 { color: #c2185b; margin-bottom: 20px; }
         label { display: block; text-align: left; margin: 10px 0 5px; color: #880e4f; font-weight: bold; }
         
-        input, select {
+        select {
             width: 100%;
             padding: 12px;
             margin-bottom: 15px;
@@ -36,6 +36,8 @@
             border-radius: 10px;
             box-sizing: border-box;
             font-size: 16px;
+            background-color: white;
+            cursor: pointer;
         }
 
         button {
@@ -48,6 +50,7 @@
             font-size: 18px;
             width: 100%;
             transition: 0.3s;
+            margin-top: 10px;
         }
 
         button:hover { background-color: #ec407a; }
@@ -71,6 +74,7 @@
             font-size: 20px;
             box-shadow: 0 5px 15px rgba(194, 24, 91, 0.4);
             animation: latido 1.5s infinite;
+            text-align: center;
         }
 
         @keyframes latido {
@@ -100,7 +104,7 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        .msg-amor { font-size: 24px; color: #ad1457; margin-bottom: 20px; font-weight: bold; }
+        .msg-amor { font-size: 24px; color: #ad1457; margin-bottom: 20px; font-weight: bold; text-align: center; }
     </style>
 </head>
 <body>
@@ -108,31 +112,44 @@
     <div class="container" id="login-box">
         <h2>💖 Nuestro Inicio 💖</h2>
         
-        <label>¿Cuál es tu nombre?</label>
-        <input type="text" id="nombre" placeholder="Escribe aquí...">
-
         <label>¿Cuál fue tu primer apodo?</label>
         <select id="apodo">
             <option value="">Selecciona uno...</option>
             <option value="Nae">Nae</option>
+            <option value="bobocha">bobocha</option>
             <option value="Naieli">Naieli</option>
             <option value="Pandita">Pandita</option>
             <option value="Ronsoca">Ronsoca</option>
             <option value="Chinita del ande">Chinita del ande</option>
-            <option value="bobocha">bobocha</option>
         </select>
 
-        <label>¿Dónde nos conocimos?</label>
+        <label>¿Dónde nos vimos por primera vez?</label>
         <select id="lugar">
             <option value="">Selecciona el lugar...</option>
-            <option value="comedor de artes">comedor de artes</option>
-            <option value="entrada a sociales">entrada a sociales</option>
             <option value="tinkuy">tinkuy</option>
             <option value="biblioteca central">biblioteca central</option>
+            <option value="entrada a sociales">entrada a sociales</option>
+            <option value="comedor de artes">comedor de artes</option>
+            <option value="muyurina">muyurina</option>
         </select>
 
         <label>Fecha de nuestra 1era cita</label>
-        <input type="text" id="fecha" placeholder="DD/MM/YYYY (Ej: 14/11/2025)">
+        <select id="fecha">
+            <option value="">Selecciona la fecha...</option>
+            <option value="30/04/2024">30/04/2024</option>
+            <option value="08/11/2025">08/11/2025</option>
+            <option value="14/11/2025">14/11/2025</option>
+            <option value="22/12/2025">22/12/2025</option>
+        </select>
+
+        <label>Por último... tu código de la U</label>
+        <select id="codigo">
+            <option value="">Selecciona tu código...</option>
+            <option value="20184451">20184451</option>
+            <option value="20191758">20191758</option>
+            <option value="20201532">20201532</option>
+            <option value="20210045">20210045</option>
+        </select>
 
         <button onclick="validar()">Ingresar ❤️</button>
     </div>
@@ -145,7 +162,7 @@
         </div>
 
         <div id="galeria">
-            <p style="color: #ad1457;">Nuestros mejores momentos:</p>
+            <p style="color: #ad1457; text-align: center; font-weight: bold;">Nuestros mejores momentos:</p>
             <div class="grid-fotos" id="contenedor-fotos">
                 </div>
         </div>
@@ -157,19 +174,16 @@
 
     <script>
         function validar() {
-            const nom = document.getElementById('nombre').value.toLowerCase().trim();
             const apo = document.getElementById('apodo').value;
             const lug = document.getElementById('lugar').value;
-            const fec = document.getElementById('fecha').value.trim();
+            const fec = document.getElementById('fecha').value;
+            const cod = document.getElementById('codigo').value;
 
-            // Lógica de variantes de nombre
-            const nombresValidos = ["naeli", "nahely", "naieli"];
-            
-            // VALIDACIÓN (Cambia la fecha aquí si no es 14/11/2025)
-            if (nombresValidos.includes(nom) && apo === "Pandita" && lug === "comedor de artes" && fec === "14/11/2025") {
+            // Validación estricta con las opciones correctas
+            if (apo === "Naieli" && lug === "entrada a sociales" && fec === "14/11/2025" && cod === "20191758") {
                 
                 document.getElementById('login-box').style.display = 'none';
-                document.body.style.display = 'block'; // Ajuste para scroll
+                document.body.style.display = 'block'; 
                 document.getElementById('sorpresa').style.display = 'flex';
                 
                 // Intentar reproducir música
@@ -177,7 +191,7 @@
                 audio.play().catch(e => console.log("Audio esperando interacción"));
 
             } else {
-                alert("Mmm... algo no cuadra, intenta recordar bien las respuestas, amor ❤️");
+                alert("Mmm... algo no cuadra, revisa bien tus respuestas, amor ❤️");
             }
         }
 
@@ -187,7 +201,7 @@
             galeria.style.display = 'block';
             
             const contenedor = document.getElementById('contenedor-fotos');
-            // Carga automática de tus 15 fotos .jpeg
+            // Carga automática de las 15 fotos .jpeg
             for (let i = 1; i <= 15; i++) {
                 const img = document.createElement('img');
                 img.src = `foto${i}.jpeg`;
@@ -195,7 +209,7 @@
                 contenedor.appendChild(img);
             }
 
-            // Asegurarse que la música suene al abrir la carta si no sonó antes
+            // Asegurar que la música suene al abrir la carta
             document.getElementById('musica').play();
         }
     </script>
